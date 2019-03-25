@@ -21,7 +21,7 @@ mongoose.connect(
     }
   }
 );
-require('./models/Account')
+
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 

@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-const account = mongoose.model("Account")
+// const mongoose = require("mongoose");
+// const account = mongoose.model("Account")
+var account = require('../models/Account')
 var mod = account;
 
 var BaseCRUD = {

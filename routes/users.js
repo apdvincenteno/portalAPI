@@ -2,8 +2,9 @@ var express = require('express');
 var router = express.Router();
 var tokenizer = require("../utils/jwt-tokenizer");
 const jwt = require('jsonwebtoken');
-const mongoose = require("mongoose");
-const Account = mongoose.model("Account");
+// const mongoose = require("mongoose");
+// const Account = mongoose.model("Account");
+const Account = require('../models/Account');
 var AccountController = require('../controllers/accountsController');
 // UserController
 var AuthenticationController = require('../controllers/authController');
