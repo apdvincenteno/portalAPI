@@ -76,5 +76,5 @@ accountSchema.methods.validatePassword = password => {
   });
 };
 
-console.log("+++++++++++++++CALLED")
-mongoose.model("Account", accountSchema);  
+var Account = mongoose.model("Account", accountSchema);
+module.exports = Account;

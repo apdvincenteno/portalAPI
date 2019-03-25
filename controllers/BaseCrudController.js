@@ -156,6 +156,5 @@ module.exports = function (modelName) {
   Controller.__proto__ = BaseCRUDController;
   Controller.model = model;
   Controller.name = model || null;
-  console.log("MODEL NAME:: " + modelName);
   return Controller;
 }
