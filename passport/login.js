@@ -17,9 +17,11 @@ module.exports = function (passport) {
           return done(null, false, req.flash('message', 'User Not found.'));
         }
         if (!isValidPassword(user, password)) {
-          return done(null, req.flash('message', 'Invalid Password'));
+          return done(null, false, req.flash('message', 'Invalid Password'));
+        } else {
+          return done(null, user);
         }
-        return done(null, user);
+
       }
       );
     })

@@ -47,28 +47,30 @@ module.exports = function (passport) {
 
   router.post('/login', function (req, res, next) {
 
-    passport.authenticate('login', function (err, user) {
-      console.log("---> : ", user)
+    passport.authenticate('login', function (err, user, info) {
+      console.log("info ---> : ", info)
       if (err) {
         return next(err);
       }
       if (!user) {
         return res.status(401).send({ error: "Unauthorized!" });
+      } else {
+        req.login(user, loginErr => {
+          console.log('user_________ : ', user + " __________loginERR : ", loginErr)
+          if (loginErr) {
+            return next(res.status(401).send({ error: "Email not verified" }));
+          }
+          //delete password
+          user.password = '';
+          var token = jwt.sign({ user }, 'mySecretKey', { expiresIn: '1h' });
+          var objLoginSuccess = {
+            token: token,
+            role: user
+          }
+          return res.json(objLoginSuccess);
+        });
       }
-      req.login(user, loginErr => {
-        // console.log('user : ', user + " loginERR : ", loginErr)
-        if (loginErr) {
-          return next(res.status(401).send({ error: "Email not verified" }));
-        }
-        //delete password
-        user.password = '';
-        var token = jwt.sign({ user }, 'mySecretKey', { expiresIn: '1h' });
-        var objLoginSuccess = {
-          token: token,
-          role: user
-        }
-        return res.json(objLoginSuccess);
-      });
+
     })(req, res, next);
   });
 
