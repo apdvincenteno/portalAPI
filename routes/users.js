@@ -46,9 +46,8 @@ module.exports = function (passport) {
   // });
 
   router.post('/login', function (req, res, next) {
-
     passport.authenticate('login', function (err, user, info) {
-      console.log("info ---> : ", info)
+      console.log("info ---> : ", JSON.stringify(info), ' user : ',user);
       if (err) {
         return next(err);
       }
@@ -61,12 +60,18 @@ module.exports = function (passport) {
             return next(res.status(401).send({ error: "Email not verified" }));
           }
           //delete password
-          user.password = '';
-          var token = jwt.sign({ user }, 'mySecretKey', { expiresIn: '1h' });
+          user.password = 'secret :D';
+          var tokeObject = {
+            id:user._id,
+            googleId:user.google_id,
+            email:user.email
+          }
+          var token = jwt.sign(tokeObject, 'mySecretKey', { expiresIn: '1h' });
           var objLoginSuccess = {
             token: token,
             role: user
           }
+          console.log('jwt signin --------------------------||||||||||||> :',objLoginSuccess )
           return res.json(objLoginSuccess);
         });
       }

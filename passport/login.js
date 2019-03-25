@@ -10,32 +10,28 @@ module.exports = function (passport) {
   },
     function (req, username, password, done) {
       console.log('email______  : ', username, "password ____ : ", password)
-      Account.findOne({ 'email': username }, function (err, user) {
+      Account.findOne({ 'email': username }, function (err, userResult) {
         if (err)
           return done(err);
-        if (!user) {
+        if (!userResult) {
+          console.log('User not found!!!!!!!')
           return done(null, false, req.flash('message', 'User Not found.'));
         }
-        if (!isValidPassword(user, password)) {
-          return done(null, false, req.flash('message', 'Invalid Password'));
-        } else {
-          return done(null, user);
+        if(userResult){
+          var isValidPassword = bCrypt.compareSync(password, userResult.password); 
+          if (isValidPassword == false) {
+            console.log('password is wrong!')
+            return done(null, false, req.flash('message', 'Invalid Password'));
+          } else if(isValidPassword == true) {
+            console.log('password is correct!')
+            return done(null, userResult);
+          }
         }
-
       }
       );
     })
   );
 
-  var isValidPassword = function (user, password) {
-    bCrypt.compare(password, user.password, function (err, res) {
-      if (res == false) {
-        return false
-      } else if (res == true) {
-        return true
-      }
-    });
-
-  }
+ 
 
 }
