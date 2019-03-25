@@ -5,19 +5,18 @@ const Account = require('../models/Account')
 var bCrypt = require('bcryptjs');
 module.exports = function (passport) {
 
-  passport.use('login', new LocalStrategy({
+  passport.use('localstrategy', new LocalStrategy({
     passReqToCallback: true
   },
     function (req, username, password, done) {
       console.log('email______  : ', username, "password ____ : ", password)
       Account.findOne({ 'email': username }, function (err, userResult) {
-        if (err)
+        if (err){
           return done(err);
-        if (!userResult) {
+        }else if (!userResult) {
           console.log('User not found!!!!!!!')
           return done(null, false, req.flash('message', 'User Not found.'));
-        }
-        if(userResult){
+        }else if(userResult){
           var isValidPassword = bCrypt.compareSync(password, userResult.password); 
           if (isValidPassword == false) {
             console.log('password is wrong!')
@@ -27,11 +26,7 @@ module.exports = function (passport) {
             return done(null, userResult);
           }
         }
-      }
-      );
+      });
     })
   );
-
- 
-
 }

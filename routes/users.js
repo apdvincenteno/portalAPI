@@ -46,7 +46,7 @@ module.exports = function (passport) {
   // });
 
   router.post('/login', function (req, res, next) {
-    passport.authenticate('login', function (err, user, info) {
+    passport.authenticate('localstrategy', function (err, user, info) {
       console.log("info ---> : ", JSON.stringify(info), ' user : ',user);
       if (err) {
         return next(err);
