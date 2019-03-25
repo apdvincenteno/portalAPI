@@ -9,7 +9,7 @@ var mongoose = require("mongoose");
 var passport = require("passport");
 require("dotenv").config();
 // mongoose database
-console.log('db', process.env.CONNECT_LOCAL_DB)
+
 mongoose.connect(
   process.env.CONNECT_LOCAL_DB,
   { useNewUrlParser: true },
@@ -17,7 +17,7 @@ mongoose.connect(
     if (err) {
       console.log("\x1b[31m%s\x1b[0m", "error failed to conenct");
     } else {
-      console.log("\x1b[32m%s\x1b[0m", "Connected to the Database");
+      console.log("\x1b[32m%s\x1b[0m", "Connected to the Database :",process.env.CONNECT_LOCAL_DB);
     }
   }
 );
